@@ -140,7 +140,7 @@ yakety-words-of-inspiration/
 
 ## 9. Later phases (not in v1)
 
-- **Public deployment:** push to a small GitHub repo and deploy free on Netlify, Vercel, or GitHub Pages, with an optional custom domain such as `yakety.ncssm-yac.org`.
+- ~~**Public deployment**~~ Done 2026-10-11: live at **https://heyyakety.github.io/** (GitHub Pages, repo `heyyakety/heyyakety.github.io` in the free `heyyakety` org, so ownership can be handed to YAC leadership later). A custom domain is still possible later.
 - **Personalization:** "What's your name?" on first visit, stored locally, so Yakety can say "Hey Priya, …".
 - **Sharing:** a "Send this to a fellow YAC member" button that copies the message.
 - **AI mode:** a serverless function that calls Claude for fresh, never-before-written messages, with the template engine as fallback.

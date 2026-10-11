@@ -2,7 +2,7 @@
 
 Yakety the yak gives YAC members a never-repeating pep talk when they tap him. 🐾
 
-**Try it:** https://akhiljariwala.github.io/yakety-words-of-inspiration/
+**Try it:** https://heyyakety.github.io/
 
 ## Run it locally
 
