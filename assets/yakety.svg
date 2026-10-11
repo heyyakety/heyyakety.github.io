@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+            <ellipse fill="rgba(11,42,91,0.18)" cx="100" cy="188" rx="56" ry="7"/>
+            <g >
+              <!-- horns -->
+              <path fill="#fff4d6" stroke="#0b2a5b" stroke-width="3" stroke-linejoin="round" d="M58 66 C 34 64, 22 46, 28 24 C 36 40, 48 46, 64 48 Z"/>
+              <path fill="#fff4d6" stroke="#0b2a5b" stroke-width="3" stroke-linejoin="round" d="M142 66 C 166 64, 178 46, 172 24 C 164 40, 152 46, 136 48 Z"/>
+              <!-- ears -->
+              <ellipse fill="#1f4f9e" stroke="#0b2a5b" stroke-width="3" cx="38" cy="92" rx="16" ry="9" transform="rotate(-24 38 92)"/>
+              <ellipse fill="#1f4f9e" stroke="#0b2a5b" stroke-width="3" cx="162" cy="92" rx="16" ry="9" transform="rotate(24 162 92)"/>
+              <!-- feet -->
+              <ellipse fill="#1f4f9e" stroke="#0b2a5b" stroke-width="3" cx="74" cy="174" rx="15" ry="10"/>
+              <ellipse fill="#1f4f9e" stroke="#0b2a5b" stroke-width="3" cx="126" cy="174" rx="15" ry="10"/>
+              <!-- fluffy body -->
+              <path fill="#3f7fdc" stroke="#0b2a5b" stroke-width="3" stroke-linejoin="round" d="M40 116 C 40 42, 160 42, 160 116 L 160 160 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 Z"/>
+              <!-- shaggy bangs -->
+              <path fill="#1f4f9e" d="M58 82 q 8 16 19 5 q 6 15 22 3 q 8 15 22 -3 q 10 13 20 -6 q -12 -26 -42 -27 q -30 2 -41 28 Z"/>
+              <!-- eyes -->
+              <g >
+                <ellipse fill="#0b2a5b" cx="74" cy="104" rx="9" ry="11"/>
+                <circle fill="#fff" cx="77.5" cy="99.5" r="3.5"/>
+                <ellipse fill="#0b2a5b" cx="126" cy="104" rx="9" ry="11"/>
+                <circle fill="#fff" cx="129.5" cy="99.5" r="3.5"/>
+              </g>
+              <!-- cheeks -->
+              <ellipse fill="#ff8fa3" opacity="0.75" cx="56" cy="124" rx="9" ry="5.5"/>
+              <ellipse fill="#ff8fa3" opacity="0.75" cx="144" cy="124" rx="9" ry="5.5"/>
+              <!-- muzzle -->
+              <ellipse fill="#fff4d6" stroke="#0b2a5b" stroke-width="3" cx="100" cy="130" rx="32" ry="21"/>
+              <ellipse fill="#0b2a5b" cx="90" cy="124" rx="3.5" ry="2.5"/>
+              <ellipse fill="#0b2a5b" cx="110" cy="124" rx="3.5" ry="2.5"/>
+              <path fill="none" stroke="#0b2a5b" stroke-width="3" stroke-linecap="round" d="M90 135 q 10 9 20 0"/>
+              <ellipse visibility="hidden" cx="100" cy="138" rx="7" ry="5.5"/>
+              <!-- collar bell -->
+              <circle fill="#f4c542" stroke="#0b2a5b" stroke-width="3" cx="100" cy="161" r="8"/>
+              <path stroke="#0b2a5b" stroke-width="2.5" stroke-linecap="round" d="M95 162 h10"/>
+            </g>
+          </svg>

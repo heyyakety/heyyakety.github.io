@@ -1,0 +1,297 @@
+/* NCSSM / YAC palette. Swap these values to re-theme the whole app,
+   including Yakety himself. */
+:root {
+  --ncssm-navy: #0b2a5b;
+  --ncssm-blue: #2f6fd6;
+  --ncssm-sky: #a9cdf5;
+  --ncssm-white: #ffffff;
+  --accent-gold: #f4c542;
+
+  --ink: var(--ncssm-navy);
+  --bg-top: #eaf3fe;
+  --bg-bottom: #c6ddf8;
+  --dots: rgba(47, 111, 214, 0.12);
+
+  --yak-fur: #3f7fdc;
+  --yak-fur-dark: #1f4f9e;
+  --yak-cream: #fff4d6;
+  --cheek: #ff8fa3;
+
+  --font-fun: "Fredoka", "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  min-height: 100dvh;
+  color: var(--ink);
+  font-family: var(--font-fun);
+  background:
+    radial-gradient(var(--dots) 2px, transparent 2.5px) 0 0 / 26px 26px,
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+.stage {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+/* ---------- Title ---------- */
+.title h1 {
+  margin: 0;
+  line-height: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.title-name {
+  font-size: clamp(2.6rem, 9vw, 3.6rem);
+  font-weight: 700;
+  color: var(--ncssm-blue);
+  letter-spacing: 0.02em;
+  text-shadow: 3px 3px 0 var(--ncssm-navy);
+}
+.title-rest {
+  font-size: clamp(1.1rem, 4vw, 1.4rem);
+  font-weight: 600;
+  color: var(--ncssm-navy);
+}
+.subtitle {
+  margin: 8px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+/* ---------- Speech bubble ---------- */
+.bubble {
+  position: relative;
+  width: min(520px, 100%);
+  padding: 16px 20px;
+  background: var(--ncssm-white);
+  border: 3px solid var(--ncssm-navy);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--ncssm-navy);
+  font-size: clamp(1.05rem, 3.6vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.45;
+}
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -20px;
+  width: 26px;
+  height: 26px;
+  background: var(--ncssm-white);
+  border-right: 3px solid var(--ncssm-navy);
+  border-bottom: 3px solid var(--ncssm-navy);
+  transform: translateX(-50%) rotate(45deg);
+  border-bottom-right-radius: 6px;
+}
+.bubble-text {
+  margin: 0;
+  display: grid;
+}
+.bubble-sizer,
+.bubble-typed { grid-area: 1 / 1; }
+.bubble-sizer { visibility: hidden; }
+
+.bubble.pop { animation: pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+
+/* ---------- Tamagotchi-style device ---------- */
+.device {
+  position: relative;
+  width: min(330px, 82vw);
+  aspect-ratio: 0.86;
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7%;
+  border-radius: 50% 50% 46% 46% / 56% 56% 44% 44%;
+  background: radial-gradient(circle at 32% 24%, #3b72c9 0%, var(--ncssm-blue) 28%, var(--ncssm-navy) 78%);
+  box-shadow:
+    inset -10px -14px 0 rgba(0, 0, 0, 0.18),
+    inset 8px 10px 0 rgba(255, 255, 255, 0.14),
+    0 12px 0 rgba(11, 42, 91, 0.25);
+}
+.device-ring {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  transform: translateX(-50%);
+  border: 7px solid var(--accent-gold);
+  border-radius: 50%;
+  z-index: -1;
+}
+.screen {
+  width: 66%;
+  aspect-ratio: 1;
+  margin-top: 6%;
+  border-radius: 24%;
+  background: radial-gradient(circle at 50% 40%, #f7fbff, #dbeafc 75%);
+  border: 6px solid #071d40;
+  box-shadow: inset 0 4px 10px rgba(11, 42, 91, 0.25);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.device-buttons {
+  display: flex;
+  gap: 10%;
+  width: 52%;
+  justify-content: center;
+}
+.device-buttons span {
+  width: 18%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ncssm-white);
+  box-shadow: inset -3px -4px 0 var(--ncssm-sky), 0 3px 0 rgba(0, 0, 0, 0.25);
+}
+.device-buttons span:nth-child(2) { transform: translateY(18%); background: var(--accent-gold); box-shadow: inset -3px -4px 0 #d9a91f, 0 3px 0 rgba(0, 0, 0, 0.25); }
+
+/* ---------- Yakety ---------- */
+.yakety {
+  width: 100%;
+  height: 100%;
+  padding: 6%;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 20%;
+  -webkit-tap-highlight-color: transparent;
+}
+.yakety:focus-visible {
+  outline: 4px solid var(--accent-gold);
+  outline-offset: -8px;
+}
+.yak-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.yak-body {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: bob 2.8s ease-in-out infinite;
+}
+.yakety:hover .yak-body { animation-duration: 1.4s; }
+.yakety.boing .yak-body { animation: boing 0.6s cubic-bezier(0.3, 1.4, 0.5, 1); }
+
+.outline { stroke: var(--ncssm-navy); stroke-width: 3; stroke-linejoin: round; }
+.fur { fill: var(--yak-fur); }
+.fur-dark { fill: var(--yak-fur-dark); }
+.horn { fill: var(--yak-cream); stroke: var(--ncssm-navy); stroke-width: 3; stroke-linejoin: round; }
+.muzzle { fill: var(--yak-cream); }
+.eye { fill: var(--ncssm-navy); }
+.eye-shine { fill: var(--ncssm-white); }
+.cheek { fill: var(--cheek); opacity: 0.75; }
+.bell { fill: var(--accent-gold); }
+.bell-line { stroke: var(--ncssm-navy); stroke-width: 2.5; stroke-linecap: round; }
+.shadow { fill: rgba(11, 42, 91, 0.18); }
+.mouth-closed { fill: none; stroke: var(--ncssm-navy); stroke-width: 3; stroke-linecap: round; }
+.mouth-open { fill: #7a2338; stroke: var(--ncssm-navy); stroke-width: 2.5; visibility: hidden; }
+
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 4.5s infinite;
+}
+.yakety.talking .mouth-closed { animation: talk-closed 0.24s steps(1) infinite; }
+.yakety.talking .mouth-open { animation: talk-open 0.24s steps(1) infinite; }
+
+/* ---------- Footer ---------- */
+.footer {
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0.85;
+  min-height: 1.4em;
+}
+
+/* ---------- Confetti ---------- */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 14px;
+  margin: -7px 0 0 -5px;
+  background: var(--color);
+  border-radius: 3px;
+  animation: confetti 1.2s cubic-bezier(0.2, 0.7, 0.4, 1) forwards;
+}
+.confetti-piece:nth-child(3n) { border-radius: 50%; width: 11px; height: 11px; }
+.confetti-piece.heart {
+  background: none;
+  color: var(--cheek);
+  font-size: 22px;
+  width: auto;
+  height: auto;
+  line-height: 1;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Animations ---------- */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+@keyframes boing {
+  0% { transform: scale(1, 1); }
+  20% { transform: scale(1.15, 0.82); }
+  45% { transform: translateY(-18px) scale(0.9, 1.12); }
+  70% { transform: translateY(0) scale(1.06, 0.95); }
+  100% { transform: scale(1, 1); }
+}
+@keyframes blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+@keyframes talk-open {
+  0% { visibility: visible; }
+  50% { visibility: hidden; }
+}
+@keyframes talk-closed {
+  0% { visibility: hidden; }
+  50% { visibility: visible; }
+}
+@keyframes pop {
+  0% { transform: scale(0.85); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes confetti {
+  0% { transform: translate(0, 0) rotate(0); opacity: 1; }
+  100% { transform: translate(var(--dx), calc(var(--dy) + 140px)) rotate(var(--spin)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; }
+}

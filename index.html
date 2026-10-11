@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yakety Words of Inspiration</title>
+  <meta name="description" content="A pep talk from Yakety, the YAC's favorite yak.">
+  <link rel="icon" href="assets/yakety.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="stage">
+    <header class="title">
+      <h1><span class="title-name">Yakety</span> <span class="title-rest">Words of Inspiration</span></h1>
+      <p class="subtitle">A pep talk from the YAC's favorite yak</p>
+    </header>
+
+    <div class="bubble" id="bubble">
+      <p class="bubble-text">
+        <span class="bubble-sizer" id="bubble-sizer" aria-hidden="true">Psst… tap me for a pick-me-up! 🐾</span>
+        <span class="bubble-typed" id="bubble-typed">Psst… tap me for a pick-me-up! 🐾</span>
+      </p>
+    </div>
+    <div class="sr-only" id="live" aria-live="polite"></div>
+
+    <div class="device">
+      <div class="device-ring" aria-hidden="true"></div>
+      <div class="screen">
+        <button class="yakety" id="yakety" type="button" aria-label="Tap Yakety for a pep talk">
+          <svg class="yak-svg" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+            <ellipse class="shadow" cx="100" cy="188" rx="56" ry="7"/>
+            <g class="yak-body">
+              <!-- horns -->
+              <path class="horn" d="M58 66 C 34 64, 22 46, 28 24 C 36 40, 48 46, 64 48 Z"/>
+              <path class="horn" d="M142 66 C 166 64, 178 46, 172 24 C 164 40, 152 46, 136 48 Z"/>
+              <!-- ears -->
+              <ellipse class="fur-dark outline" cx="38" cy="92" rx="16" ry="9" transform="rotate(-24 38 92)"/>
+              <ellipse class="fur-dark outline" cx="162" cy="92" rx="16" ry="9" transform="rotate(24 162 92)"/>
+              <!-- feet -->
+              <ellipse class="fur-dark outline" cx="74" cy="174" rx="15" ry="10"/>
+              <ellipse class="fur-dark outline" cx="126" cy="174" rx="15" ry="10"/>
+              <!-- fluffy body -->
+              <path class="fur outline" d="M40 116 C 40 42, 160 42, 160 116 L 160 160 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 q -10 14 -20 0 Z"/>
+              <!-- shaggy bangs -->
+              <path class="fur-dark" d="M58 82 q 8 16 19 5 q 6 15 22 3 q 8 15 22 -3 q 10 13 20 -6 q -12 -26 -42 -27 q -30 2 -41 28 Z"/>
+              <!-- eyes -->
+              <g class="eyes">
+                <ellipse class="eye" cx="74" cy="104" rx="9" ry="11"/>
+                <circle class="eye-shine" cx="77.5" cy="99.5" r="3.5"/>
+                <ellipse class="eye" cx="126" cy="104" rx="9" ry="11"/>
+                <circle class="eye-shine" cx="129.5" cy="99.5" r="3.5"/>
+              </g>
+              <!-- cheeks -->
+              <ellipse class="cheek" cx="56" cy="124" rx="9" ry="5.5"/>
+              <ellipse class="cheek" cx="144" cy="124" rx="9" ry="5.5"/>
+              <!-- muzzle -->
+              <ellipse class="muzzle outline" cx="100" cy="130" rx="32" ry="21"/>
+              <ellipse class="eye" cx="90" cy="124" rx="3.5" ry="2.5"/>
+              <ellipse class="eye" cx="110" cy="124" rx="3.5" ry="2.5"/>
+              <path class="mouth-closed" d="M90 135 q 10 9 20 0"/>
+              <ellipse class="mouth-open" cx="100" cy="138" rx="7" ry="5.5"/>
+              <!-- collar bell -->
+              <circle class="bell outline" cx="100" cy="161" r="8"/>
+              <path class="bell-line" d="M95 162 h10"/>
+            </g>
+          </svg>
+        </button>
+      </div>
+      <div class="device-buttons" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+
+    <footer class="footer"><span id="counter"></span></footer>
+  </main>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+  <script src="messages-data.js"></script>
+  <script src="messages.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

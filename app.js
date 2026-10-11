@@ -1,0 +1,90 @@
+(function () {
+  const engine = Yakety.createEngine(window.YAKETY_MESSAGES);
+
+  const yak = document.getElementById("yakety");
+  const bubble = document.getElementById("bubble");
+  const sizer = document.getElementById("bubble-sizer");
+  const typed = document.getElementById("bubble-typed");
+  const live = document.getElementById("live");
+  const counter = document.getElementById("counter");
+  const confetti = document.getElementById("confetti");
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const CONFETTI_COLORS = ["var(--ncssm-blue)", "var(--ncssm-navy)", "var(--ncssm-sky)", "var(--accent-gold)", "var(--cheek)"];
+  let typingTimer = null;
+
+  function updateCounter(n) {
+    counter.textContent = n === 0
+      ? "No pep talks yet. Yakety is waiting! 🐾"
+      : `🐾 Pep talks collected: ${n.toLocaleString()}`;
+  }
+
+  // Replay a CSS animation class on an element.
+  function replay(el, cls) {
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+
+  function say(text) {
+    clearInterval(typingTimer);
+    live.textContent = text;
+    // The invisible sizer holds the full text so the bubble doesn't grow line
+    // by line while the typed text catches up.
+    sizer.textContent = text;
+    replay(bubble, "pop");
+
+    if (reducedMotion.matches) {
+      typed.textContent = text;
+      return;
+    }
+
+    const chars = Array.from(text);
+    let i = 0;
+    typed.textContent = "";
+    yak.classList.add("talking");
+    typingTimer = setInterval(() => {
+      i += 2;
+      typed.textContent = chars.slice(0, i).join("");
+      if (i >= chars.length) {
+        clearInterval(typingTimer);
+        yak.classList.remove("talking");
+      }
+    }, 22);
+  }
+
+  function burst() {
+    if (reducedMotion.matches) return;
+    const rect = yak.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.4;
+
+    for (let i = 0; i < 28; i++) {
+      const piece = document.createElement("span");
+      const isHeart = i % 5 === 0;
+      piece.className = "confetti-piece" + (isHeart ? " heart" : "");
+      if (isHeart) piece.textContent = "♥";
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 90 + Math.random() * 120;
+      piece.style.left = cx + "px";
+      piece.style.top = cy + "px";
+      piece.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+      piece.style.setProperty("--dy", Math.sin(angle) * dist - 40 + "px");
+      piece.style.setProperty("--spin", (Math.random() * 720 - 360) + "deg");
+      piece.style.setProperty("--color", CONFETTI_COLORS[i % CONFETTI_COLORS.length]);
+      piece.style.animationDelay = Math.random() * 80 + "ms";
+      confetti.appendChild(piece);
+      setTimeout(() => piece.remove(), 1400);
+    }
+  }
+
+  yak.addEventListener("click", () => {
+    const msg = engine.next();
+    replay(yak, "boing");
+    say(msg.text);
+    burst();
+    updateCounter(engine.count);
+  });
+
+  updateCounter(engine.count);
+})();
