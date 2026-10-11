@@ -11,7 +11,12 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const CONFETTI_COLORS = ["var(--ncssm-blue)", "var(--ncssm-navy)", "var(--ncssm-sky)", "var(--accent-gold)", "var(--cheek)"];
+  const TYPE_STEP_MS = 25;   // how often the typed text advances
+  const TYPE_CHARS = 2;      // characters revealed per step
+  const LONG_MESSAGE = 200;  // characters; longer messages get a smaller bubble font
+
   let typingTimer = null;
+  let currentText = "";
 
   function updateCounter(n) {
     counter.textContent = n === 0
@@ -19,19 +24,36 @@
       : `🐾 Pep talks collected: ${n.toLocaleString()}`;
   }
 
-  // Replay a CSS animation class on an element.
+  // Restart a CSS animation class on an element.
   function replay(el, cls) {
     el.classList.remove(cls);
-    void el.offsetWidth;
+    void el.offsetWidth; // force a style flush so the animation restarts
     el.classList.add(cls);
   }
 
+  // Stop any typing in progress and clear the talking mouth. Safe to call anytime.
+  function stopTyping() {
+    if (typingTimer !== null) {
+      clearInterval(typingTimer);
+      typingTimer = null;
+    }
+    yak.classList.remove("talking");
+  }
+
+  function showInstantly(text) {
+    stopTyping();
+    typed.textContent = text;
+  }
+
   function say(text) {
-    clearInterval(typingTimer);
+    stopTyping();
+    currentText = text;
+    // Screen readers get the full message once, not one character at a time.
     live.textContent = text;
     // The invisible sizer holds the full text so the bubble doesn't grow line
     // by line while the typed text catches up.
     sizer.textContent = text;
+    bubble.classList.toggle("long", Array.from(text).length > LONG_MESSAGE);
     replay(bubble, "pop");
 
     if (reducedMotion.matches) {
@@ -40,17 +62,14 @@
     }
 
     const chars = Array.from(text);
-    let i = 0;
+    let shown = 0;
     typed.textContent = "";
     yak.classList.add("talking");
     typingTimer = setInterval(() => {
-      i += 2;
-      typed.textContent = chars.slice(0, i).join("");
-      if (i >= chars.length) {
-        clearInterval(typingTimer);
-        yak.classList.remove("talking");
-      }
-    }, 22);
+      shown = Math.min(shown + TYPE_CHARS, chars.length);
+      typed.textContent = chars.slice(0, shown).join("");
+      if (shown >= chars.length) stopTyping();
+    }, TYPE_STEP_MS);
   }
 
   function burst() {
@@ -74,9 +93,19 @@
       piece.style.setProperty("--color", CONFETTI_COLORS[i % CONFETTI_COLORS.length]);
       piece.style.animationDelay = Math.random() * 80 + "ms";
       confetti.appendChild(piece);
-      setTimeout(() => piece.remove(), 1400);
+      // Remove each piece when its animation ends, with a timer as a backstop.
+      piece.addEventListener("animationend", () => piece.remove());
+      setTimeout(() => piece.remove(), 1600);
     }
   }
+
+  // The boing class drives a one-shot animation on the body. Remove the class
+  // when it ends so the idle bob takes over again.
+  yak.addEventListener("animationend", (e) => {
+    if (e.target.classList.contains("yak-body") && e.animationName === "boing") {
+      yak.classList.remove("boing");
+    }
+  });
 
   yak.addEventListener("click", () => {
     const msg = engine.next();
@@ -85,6 +114,13 @@
     burst();
     updateCounter(engine.count);
   });
+
+  // If the user turns on reduced motion mid-typing, finish the message at once.
+  const onMotionChange = () => {
+    if (reducedMotion.matches && typingTimer !== null) showInstantly(currentText);
+  };
+  if (reducedMotion.addEventListener) reducedMotion.addEventListener("change", onMotionChange);
+  else if (reducedMotion.addListener) reducedMotion.addListener(onMotionChange);
 
   updateCounter(engine.count);
 })();

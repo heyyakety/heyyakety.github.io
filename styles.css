@@ -83,10 +83,11 @@ body {
   border: 3px solid var(--ncssm-navy);
   border-radius: 24px;
   box-shadow: 0 6px 0 var(--ncssm-navy);
-  font-size: clamp(1.05rem, 3.6vw, 1.2rem);
+  font-size: clamp(0.98rem, 3.4vw, 1.2rem);
   font-weight: 500;
   line-height: 1.45;
 }
+.bubble.long { font-size: clamp(0.92rem, 3vw, 1.05rem); }
 .bubble::after {
   content: "";
   position: absolute;
@@ -103,6 +104,7 @@ body {
 .bubble-text {
   margin: 0;
   display: grid;
+  overflow-wrap: anywhere;
 }
 .bubble-sizer,
 .bubble-typed { grid-area: 1 / 1; }
@@ -176,10 +178,19 @@ body {
   cursor: pointer;
   border-radius: 20%;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;   /* no double-tap zoom delay on phones */
+  -webkit-user-select: none;
+  user-select: none;
 }
+.yakety:focus { outline: none; }
 .yakety:focus-visible {
   outline: 4px solid var(--accent-gold);
   outline-offset: -8px;
+}
+/* Gold ring around the whole screen too, so the focus shows against the navy device. */
+.screen:has(.yakety:focus-visible) {
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 3px;
 }
 .yak-svg {
   width: 100%;
@@ -219,10 +230,19 @@ body {
 
 /* ---------- Footer ---------- */
 .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   font-size: 0.95rem;
   font-weight: 500;
-  opacity: 0.85;
+  color: var(--ncssm-navy);
   min-height: 1.4em;
+}
+.footer-credit {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 /* ---------- Confetti ---------- */
@@ -293,6 +313,13 @@ body {
   100% { transform: translate(var(--dx), calc(var(--dy) + 140px)) rotate(var(--spin)); opacity: 0; }
 }
 
+/* Short phones: tighten the page so the whole screen, including the longest message, fits. */
+@media (max-height: 760px) {
+  .stage { gap: 12px; padding-top: 16px; padding-bottom: 16px; }
+  .subtitle { margin-top: 2px; font-size: 0.9rem; }
+  .title-name { font-size: clamp(2.2rem, 8vw, 2.8rem); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

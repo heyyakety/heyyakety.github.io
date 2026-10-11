@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Yakety Words of Inspiration</title>
   <meta name="description" content="A pep talk from Yakety, the YAC's favorite yak.">
+  <meta name="theme-color" content="#0b2a5b">
   <link rel="icon" href="assets/yakety.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +22,7 @@
     <div class="bubble" id="bubble">
       <p class="bubble-text">
         <span class="bubble-sizer" id="bubble-sizer" aria-hidden="true">Psst… tap me for a pick-me-up! 🐾</span>
-        <span class="bubble-typed" id="bubble-typed">Psst… tap me for a pick-me-up! 🐾</span>
+        <span class="bubble-typed" id="bubble-typed" aria-hidden="true">Psst… tap me for a pick-me-up! 🐾</span>
       </p>
     </div>
     <div class="sr-only" id="live" aria-live="polite"></div>
@@ -82,7 +83,10 @@
       <div class="device-buttons" aria-hidden="true"><span></span><span></span><span></span></div>
     </div>
 
-    <footer class="footer"><span id="counter"></span></footer>
+    <footer class="footer">
+      <span id="counter"></span>
+      <span class="footer-credit">Made with 💙 for the NCSSM Young Alumni Council</span>
+    </footer>
   </main>
   <div class="confetti" id="confetti" aria-hidden="true"></div>
 
