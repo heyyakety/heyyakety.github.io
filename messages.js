@@ -28,8 +28,16 @@
     };
   }
 
+  // Any storage (even a custom one) must never throw into the engine.
+  function guarded(store) {
+    return {
+      get(key) { try { return store.get(key); } catch (e) { return null; } },
+      set(key, value) { try { store.set(key, value); } catch (e) { /* session memory still tracks it */ } }
+    };
+  }
+
   function createEngine(data, opts = {}) {
-    const storage = opts.storage || safeStorage();
+    const storage = guarded(opts.storage || safeStorage());
     const random = opts.random || Math.random;
     const specialRate = opts.specialRate ?? 0.2;
 
@@ -37,17 +45,33 @@
     const comboTotal = pools.reduce((n, p) => n * p.length, 1);
     const total = comboTotal + data.specials.length;
 
-    let seen = new Set(readJson(SEEN_KEY, []));
+    const seen = new Set();   // IDs shown so far (only IDs that match the data)
+    let comboSeen = 0;        // how many of those are composed messages
     let count = Number(storage.get(COUNT_KEY)) || 0;
-    let lastParts = null;
+    let lastParts = null;     // pieces of the previous composed message
 
-    function readJson(key, fallback) {
-      try { return JSON.parse(storage.get(key)) ?? fallback; } catch (e) { return fallback; }
+    // Seen IDs come from storage, so keep only the ones that still match the data.
+    // A stale or corrupt ID must not inflate the seen count and trigger an early reset.
+    function validId(id) {
+      const m = /^(?:s(0|[1-9]\d*)|c(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*))$/.exec(id);
+      if (!m) return false;
+      if (m[1] !== undefined) return Number(m[1]) < data.specials.length;
+      return pools.every((p, pool) => Number(m[pool + 2]) < p.length);
     }
 
-    function remember(id) {
-      seen.add(id);
-      count += 1;
+    let stored = [];
+    try {
+      const parsed = JSON.parse(storage.get(SEEN_KEY));
+      if (Array.isArray(parsed)) stored = parsed;
+    } catch (e) { /* unreadable history: start fresh */ }
+    for (const id of stored) {
+      if (validId(id) && !seen.has(id)) {
+        seen.add(id);
+        if (id[0] === "c") comboSeen += 1;
+      }
+    }
+
+    function save() {
       storage.set(SEEN_KEY, JSON.stringify([...seen]));
       storage.set(COUNT_KEY, String(count));
     }
@@ -58,13 +82,13 @@
       return parts.map((idx, pool) => pools[pool][idx]).join(" ");
     }
 
-    function seenCombos() {
-      let n = 0;
-      for (const id of seen) if (id[0] === "c") n += 1;
-      return n;
-    }
-
     function pickSpecial() {
+      if (data.specials.length === 0) return null;
+      // Random tries first (cheap while most specials are unseen), then a full scan.
+      for (let tries = 0; tries < 20; tries++) {
+        const i = Math.floor(random() * data.specials.length);
+        if (!seen.has("s" + i)) return { id: "s" + i, text: data.specials[i], parts: null };
+      }
       const unseen = [];
       data.specials.forEach((_, i) => { if (!seen.has("s" + i)) unseen.push(i); });
       if (unseen.length === 0) return null;
@@ -92,22 +116,31 @@
       return null;
     }
 
-    function next() {
-      if (seen.size >= total) {
-        seen = new Set();
-        lastParts = null;
-        storage.set(SEEN_KEY, "[]");
-        return { id: "reset", text: data.resetMessage, reset: true, count };
-      }
+    function reset() {
+      seen.clear();
+      comboSeen = 0;
+      lastParts = null;
+      count += 1;
+      save();
+      return { id: "reset", text: data.resetMessage, reset: true, count };
+    }
 
-      const combosLeft = seenCombos() < comboTotal;
+    function next() {
+      if (seen.size >= total) return reset();
+
       let msg = null;
-      if (!combosLeft || random() < specialRate) msg = pickSpecial();
+      if (comboSeen >= comboTotal || random() < specialRate) msg = pickSpecial();
       if (!msg) msg = pickCombo();
       if (!msg) msg = pickSpecial();
+      if (!msg) return reset(); // defensive: nothing left to show
 
-      remember(msg.id);
-      if (msg.parts) lastParts = msg.parts;
+      seen.add(msg.id);
+      if (msg.parts) {
+        comboSeen += 1;
+        lastParts = msg.parts;
+      }
+      count += 1;
+      save();
       return { id: msg.id, text: msg.text, reset: false, count };
     }
 
