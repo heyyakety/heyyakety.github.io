@@ -2,7 +2,9 @@
 
 Yakety the yak gives YAC members a never-repeating pep talk when they tap him. 🐾
 
-**Try it:** https://heyyakety.github.io/
+**Try it:** https://yac-yakkety.github.io/
+
+The code lives in [`yac-yakkety/yac-yakkety.github.io`](https://github.com/yac-yakkety/yac-yakkety.github.io), in the `yac-yakkety` GitHub org alongside the Yakkety suite. (It used to be at heyyakety.github.io, which has moved here.)
 
 ## Run it locally
 
@@ -60,7 +62,7 @@ The site is hosted with GitHub Pages from the `main` branch, root folder. Pushin
 ## Project files
 
 ```
-yakety-words-of-inspiration/
+yac-yakkety.github.io/
 ├── index.html          Page layout, Yakety's SVG artwork, speech bubble
 ├── styles.css          YAC colors (CSS variables), layout, animations
 ├── app.js              Click handling, animations, confetti, counter

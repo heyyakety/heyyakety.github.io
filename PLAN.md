@@ -140,7 +140,7 @@ yakety-words-of-inspiration/
 
 ## 9. Later phases (not in v1)
 
-- ~~**Public deployment**~~ Done 2026-10-11: live at **https://heyyakety.github.io/** (GitHub Pages, repo `heyyakety/heyyakety.github.io` in the free `heyyakety` org, so ownership can be handed to YAC leadership later). A custom domain is still possible later.
+- ~~**Public deployment**~~ Done 2026-10-11 at heyyakety.github.io. **Moved 2026-10-12** to **https://yac-yakkety.github.io/** (GitHub Pages, repo `yac-yakkety/yac-yakkety.github.io` in the `yac-yakkety` org, which also holds the Yakkety productivity suite, so ownership can be handed to YAC leadership as one org). A custom domain is still possible later.
 - **Personalization:** "What's your name?" on first visit, stored locally, so Yakety can say "Hey Priya, …".
 - **Sharing:** a "Send this to a fellow YAC member" button that copies the message.
 - **AI mode:** a serverless function that calls Claude for fresh, never-before-written messages, with the template engine as fallback.
